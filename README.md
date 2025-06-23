@@ -33,5 +33,5 @@ This is a Flask-based Face Detection Attendance System using OpenCV. It allows c
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/face-detection-attendance.git
+git clone https://github.com/pratikpawar004/face-detection.git
 cd face-detection-attendance
