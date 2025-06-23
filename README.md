@@ -69,4 +69,22 @@ This is a Flask-based Face Detection Attendance System using OpenCV. It allows c
 
 ## 📂 Project Structure
 
+face-detection/
+│
+├── static/ ── CSS, JS assets
+├── templates/ ── HTML pages
+├── train_images/ ── Raw face captures
+├── student_recognizer.yml ── Trained model
+├── label_map.npy ── ID-to-name map
+├── attendance.csv ── Output reports
+├── app.py ── Main Flask app
+├── requirements.txt ── Python deps
+└── README.md ── This documentation
 
+##👤 Author
+## Pratik Pawar
+## SSVPS B.S. Deore College of Engineering, Dhule
+## (B.Tech Final Year Project)
+
+# 📜 License
+For educational use only. Feel free to modify and adapt.
