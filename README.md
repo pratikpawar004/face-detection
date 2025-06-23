@@ -29,9 +29,44 @@ This is a Flask-based Face Detection Attendance System using OpenCV. It allows c
 
 ---
 
-## 📦 Installation Guide
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/pratikpawar004/face-detection.git
-cd face-detection-attendance
+## 🔧 Installation & Setup
+
+1. **Clone the repo**
+    ```bash
+    git clone https://github.com/pratikpawar004/face-detection.git
+    cd face-detection
+    ```
+
+2. **Set up virtual environment (recommended)**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate       # macOS/Linux
+    .\venv\Scripts\activate        # Windows
+    ```
+
+3. **Install dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Run the app**
+    ```bash
+    python app.py
+    ```
+    Then visit: `http://127.0.0.1:5000/`
+
+---
+
+## 🚀 Usage
+
+- **Capture images**: `http://127.0.0.1:5000/capture_image`
+- **Train model**: `http://127.0.0.1:5000/train_model`
+- **Fill attendance**: `http://127.0.0.1:5000/fill_attendance`
+- **Download report**: `attendance.csv`
+
+---
+
+## 📂 Project Structure
+
+
