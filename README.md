@@ -81,7 +81,7 @@ face-detection/<br>
 ├── requirements.txt ── Python deps <br>
 └── README.md ── This documentation <br>
 
-##👤 Author
+## 👤 Author
 ## Pratik Pawar
 ## SSVPS B.S. Deore College of Engineering, Dhule
 ## (B.Tech Final Year Project)
