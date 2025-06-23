@@ -69,8 +69,8 @@ This is a Flask-based Face Detection Attendance System using OpenCV. It allows c
 
 ## 📂 Project Structure
 
-face-detection/
-│
+face-detection/<br>
+│<br>
 ├── static/ ── CSS, JS assets <br>
 ├── templates/ ── HTML pages <br>
 ├── train_images/ ── Raw face captures <br>
