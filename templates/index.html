@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html >
+<head>
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href=" {{ url_for('static', filename='images/f6.webp') }}" type="image/x-icon">
+  <meta name="description" content="Experience real-time face detection using your webcam. Click the button to start the video stream and see OpenCV in action!">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <title>Face Detection Live</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobirise2.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/jarallax.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/recaptcha.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mbr-additional.css') }}" type="text/css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;700&display=swap&display=swap"></noscript>
+
+  
+  
+  
+  
+
+
+<style>
+.navbar-fixed-top {
+  top: auto;
+}
+#mobiriseBanner.container-banner {
+  height: 11rem;
+  opacity: 1;
+  -webkit-animation: 4s linear animationHeight;
+  -moz-animation: 4s linear animationHeight;
+    -o-animation: 4s linear animationHeight;
+       animation: 4s linear animationHeight;
+       transition: all  0.5s;
+}
+#mobiriseBanner.container-banner.container-banner-closing {
+  pointer-events: none;
+  height: 0;
+  opacity: 0;
+  -webkit-animation: 0.5s linear animationClosing;
+  -moz-animation:  0.5s linear animationClosing;
+    -o-animation:  0.5s linear animationClosing;
+       animation:  0.5s linear animationClosing;
+}
+#mobiriseBanner .banner {
+  min-height: 11rem;
+  position:fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 10px;
+  opacity:1;
+  -webkit-animation: 4s linear animationBanner;
+  -moz-animation: 4s linear animationBanner;
+    -o-animation: 4s linear animationBanner;
+       animation: 4s linear animationBanner;
+  z-index: 1031;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#mobiriseBanner .banner p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  animation: none;
+  visibility: visible;
+}
+#mobiriseBanner .buy-license {
+  text-decoration: underline;
+}
+#mobiriseBanner .banner .btn {
+  margin: 0.3rem 0.5rem;
+  animation: none;
+  visibility: visible;
+}
+.navbar.opened {
+    z-index: 1032;
+}
+@-webkit-keyframes animationBanner { 0% { opacity: 0; top: -11rem; } 75% { opacity: 0; top: -11rem; } 100% { opacity: 1; top: 0; } }
+@-moz-keyframes animationBanner { 0% { opacity: 0; top: -11rem; } 75% { opacity: 0; top: -11rem; } 100% { opacity: 1; top: 0; } }
+@-o-keyframes animationBanner { 0% { opacity: 0; top: -11rem; } 75% { opacity: 0; top: -11rem; } 100% { opacity: 1; top: 0; } }
+   @keyframes animationBanner { 0% { opacity: 0; top: -11rem; } 75% { opacity: 0; top: -11rem; } 100% { opacity: 1; top: 0; } }
+@-webkit-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 11rem; } }
+@-moz-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 11rem; } }
+@-o-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 11rem; } }
+   @keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 11rem; } }
+
+@-webkit-keyframes animationClosing { 0% { height: 11rem; opacity: 1; } 30% { height: 11rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+@-moz-keyframes animationClosing { 0% { height: 11rem; opacity: 1; } 30% { height: 11rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+@-o-keyframes animationClosing { 0% { height: 11rem; opacity: 1; } 30% { height: 11rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+@keyframes animationClosing { 0% { height: 11rem; opacity: 1; } 30% { height: 11rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+
+@media(max-width: 767px) {
+  #mobiriseBanner.container-banner {
+    height: 12rem;
+  }
+  #mobiriseBanner .banner {
+    min-height: 12rem;
+  }
+  @-webkit-keyframes animationBanner { 0% { opacity: 0; top: -12rem; } 75% { opacity: 0; top: -12rem; } 100% { opacity: 1; top: 0; } }
+  @-moz-keyframes animationBanner { 0% { opacity: 0; top: -12rem; } 75% { opacity: 0; top: -12rem; } 100% { opacity: 1; top: 0; } }
+  @-o-keyframes animationBanner { 0% { opacity: 0; top: -12rem; } 75% { opacity: 0; top: -12rem; } 100% { opacity: 1; top: 0; } }
+    @keyframes animationBanner { 0% { opacity: 0; top: -12rem; } 75% { opacity: 0; top: -12rem; } 100% { opacity: 1; top: 0; } }
+  @-webkit-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 12rem; } }
+  @-moz-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 12rem; } }
+  @-o-keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 12rem; } }
+    @keyframes animationHeight { 0% { height: 0; } 75% { height: 0; } 100% { height: 12rem; } }
+
+  @-webkit-keyframes animationClosing { 0% { height: 12rem; opacity: 1; } 30% { height: 12rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+  @-moz-keyframes animationClosing { 0% { height: 12rem; opacity: 1; } 30% { height: 12rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+  @-o-keyframes animationClosing { 0% { height: 12rem; opacity: 1; } 30% { height: 12rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+  @keyframes animationClosing { 0% { height: 12rem; opacity: 1; } 30% { height: 12rem; opacity: 0.5;} 100% { height: 0; opacity: 0;} }
+}
+</style>
+</head>
+<body>  
+  <section data-bs-version="5.1" class="menu menu1 careerm5 cid-uvAsQAVSrJ" once="menu" id="menu-1-uvAsQAVSrJ">
+
+    
+
+    <nav class="navbar navbar-dropdown navbar-expand-lg">
+        <div class="menu_box container-fluid">
+            <div class="navbar-brand d-flex">
+                
+                <span class="navbar-caption-wrap">
+                    <a class="navbar-caption display-4" href="/">FaceDetect</a>
+                </span>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-brand d-none d-lg-flex">
+                </div>
+                <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="/attendance">Enrollment</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="/video">Camera</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="#team">Team</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="#contact">Contact</a></li></ul>
+                
+
+                <div class="mbr-section-btn-main" role="tablist">
+                    <a class="btn btn-black-outline display-4" href="#contact">
+                        <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        Contact us
+                    </a>
+                </div>
+                <div class="offcanvas_box">
+                    <button class="btn_offcanvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <div class="hamburger">
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <h3 class="mbr-section-subtitle mbr-fonts-style display-5">Chat with Ai</h3>
+                            
+                            <!-- Chat messages container -->
+                            <div id="chat-container" class="mb-3" style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                                <!-- Chat messages will be appended here dynamically -->
+                            </div>
+                    
+                            <!-- User input -->
+                            <div class="input-group">
+                                <input type="text" id="user-input" class="form-control" placeholder="Type your message..." aria-label="Type your message..." />
+                                <button class="btn btn-primary" id="send-button">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        // Function to append new messages to the chat container
+                        function appendMessage(content, sender) {
+                            const messageElement = document.createElement('div');
+                            messageElement.classList.add('message', sender);
+                    
+                            // Style adjustments for user and bot messages
+                            if (sender === 'user') {
+                                messageElement.style.textAlign = 'right';
+                                messageElement.style.backgroundColor = '#cfe2f3';
+                                messageElement.style.borderRadius = '8px';
+                                messageElement.style.padding = '8px';
+                                messageElement.style.marginBottom = '10px';
+                            } else {
+                                messageElement.style.textAlign = 'left';
+                                messageElement.style.backgroundColor = '#f1f1f1';
+                                messageElement.style.borderRadius = '8px';
+                                messageElement.style.padding = '8px';
+                                messageElement.style.marginBottom = '10px';
+                            }
+                    
+                            messageElement.textContent = content;
+                            document.getElementById('chat-container').appendChild(messageElement);
+                            document.getElementById('chat-container').scrollTop = document.getElementById('chat-container').scrollHeight; // Scroll to the bottom
+                        }
+                    
+                        // Event listener for the send button
+                        document.getElementById('send-button').addEventListener('click', function() {
+                            const userMessage = document.getElementById('user-input').value;
+                            if (userMessage.trim() !== "") {
+                                // Display user's message in the chat
+                                appendMessage(userMessage, 'user');
+                                document.getElementById('user-input').value = ""; // Clear the input field
+                    
+                                // Generate a unique user ID for the session (you can replace this with a real user ID if needed)
+                                const userId = new Date().getTime().toString();  // Unique ID for the session
+                    
+                                // Call Flask backend for the chatbot response
+                                fetch('/chat', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        message: userMessage,
+                                        user_id: userId  // Send the unique user_id
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    const botMessage = data.reply;
+                                    appendMessage(botMessage, 'bot');
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    appendMessage("Sorry, I couldn't understand that.", 'bot');
+                                });
+                            }
+                        });
+                    
+                        // Allow pressing Enter to send a message
+                        document.getElementById('user-input').addEventListener('keypress', function(event) {
+                            if (event.key === 'Enter') {
+                                document.getElementById('send-button').click();
+                            }
+                        });
+                    </script>
+                    
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</section>
+
+<section data-bs-version="5.1" class="header2 careerm5 cid-uvAsQAYDLd mbr-fullscreen" id="hero-2-uvAsQAYDLd">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-7">
+                <div class="title-wrapper">
+                    <h1 class="mbr-section-title mbr-fonts-style display-1">Face Detection</h1>
+                    <p class="mbr-text mbr-fonts-style display-7">Unleash the power of real-time face detection magic!</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-primary display-4" href="/video">
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                            Go to Video
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="image-wrapper">
+                    <img src=" {{ url_for('static', filename='images/top_person1.webp') }}" alt="">
+                <div class="image-wrapper">
+                    <img src=" {{ url_for('static', filename='images/parson1.png') }}" alt="">
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="video1 careerm5 cid-uvAsQAZUHL mbr-parallax-background" id="video-1-uvAsQAZUHL">
+
+    
+
+    
+    <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);">
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="video-block">
+                    <div class="video-wrapper"><iframe class="mbr-embedded-video" src="https://www.youtube.com/embed/YX8BzK_LU0E?si=NJxffzJV02RDmDxJ" width="1280" height="720" frameborder="0" allowfullscreen></iframe></div>
+                    <div class="text-wrapper">
+                        <p class="mbr-desc mbr-fonts-style display-4">Dive into the world of face detection! Activate your webcam and let our cutting-edge OpenCV technology reveal the faces around you in real-time. It's like magic, but with science!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="image2 careerm5 cid-uvAsQB0CRn" id="image">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-3 text-wrap">
+                <div class="text-wrapper">
+                    
+                    <p class="mbr-text mbr-fonts-style display-7">Unleash Your Inner Detective!</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9">
+                <div class="image-wrapper">
+                    <img src=" {{ url_for('static', filename='images/full_page.png') }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="features2 careerm5 cid-uvAsQB0mQv" id="features">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row flex-row-reverse">
+            <div class="col-12">
+                <div class="title-wrapper">
+                    <h2 class="mbr-section-title mbr-fonts-style display-2">Features</h2>
+                    <p class="mbr-text mbr-fonts-style display-7">Explore real-time detection powered by your live webcam.</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Face Recognition</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">Real-time face recognition technology detects, verifies, and identifies individuals using advanced AI, ensuring seamless and accurate results.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Face Detection</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">Real-time face detection technology tracks and identifies faces using your webcam, offering seamless and fast results.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row flex-row-reverse">
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Manage Attendance</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">Easily manage attendance records with options to manually update, edit, and review entries for accurate tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Mark Attendance</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">Real-time face detection and recognition technology accurately verifies identities and marks attendance seamlessly using advanced AI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<section data-bs-version="5.1" class="features1 careerm5 cid-uvAsQB1xjB" id="team">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <div class="title-wrapper">
+                    <h3 class="mbr-section-title mbr-fonts-style display-4">Meet Our Team</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="items">
+                    <div class="item features-image">
+                        <div class="item-wrapper">
+                            <div class="item-img">
+                                <div class="item-icons">
+                                    <span class="mbr-iconfont socicon fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/pratikpawar004/';"></span>
+                                    <span class="mbr-iconfont socicon fa-brands fa-linkedin" onclick="window.location.href='https://www.linkedin.com/in/pratik-pawar004';"></span>
+                                    <span class="mbr-iconfont socicon fa fa-facebook-f" onclick="window.location.href='https://www.facebook.com/Pratikpawar004/';"></span>
+                                </div>
+                                <img src="https://r.mobirisesite.com/955353/assets/images/photo-1509988892867-8bf3ee9e3afa.jpeg" alt="">
+                            </div>
+                            <div class="item-content">
+                                <p class="item-name mbr-fonts-style display-7">Pratik Pawar</p>
+                                <p class="item-desc mbr-fonts-style display-4">Lead Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item features-image">
+                        <div class="item-wrapper">
+                            <div class="item-img">
+                                <div class="item-icons">
+                                    <span class="mbr-iconfont socicon fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa-brands fa-linkedin" onclick="window.location.href='https://twitter.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa fa-facebook-f" onclick="window.location.href='https://www.facebook.com/yourprofile';"></span>
+                                </div>
+                                <img src="https://r.mobirisesite.com/955353/assets/images/photo-1456327102063-fb5054efe647.jpeg" alt="">
+                            </div>
+                            <div class="item-content">
+                                <p class="item-name mbr-fonts-style display-7">Gopal Saindane</p>
+                                <p class="item-desc mbr-fonts-style display-4">AI Specialist</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item features-image">
+                        <div class="item-wrapper">
+                            <div class="item-img">
+                                <div class="item-icons">
+                                    <span class="mbr-iconfont socicon fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa-brands fa-linkedin" onclick="window.location.href='https://twitter.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa fa-facebook-f" onclick="window.location.href='https://www.facebook.com/yourprofile';"></span>
+                                </div>
+                                <img src="https://r.mobirisesite.com/955353/assets/images/photo-1543965170-4c01a586684e.jpeg" alt="">
+                            </div>
+                            <div class="item-content">
+                                <p class="item-name mbr-fonts-style display-7">Yogesh Patil</p>
+                                <p class="item-desc mbr-fonts-style display-4">UI Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item features-image">
+                        <div class="item-wrapper">
+                            <div class="item-img">
+                                <div class="item-icons">
+                                    <span class="mbr-iconfont socicon fa-brands fa-instagram" onclick="window.location.href='https://www.instagram.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa-brands fa-linkedin" onclick="window.location.href='https://twitter.com/yourprofile';"></span>
+                                    <span class="mbr-iconfont socicon fa fa-facebook-f" onclick="window.location.href='https://www.facebook.com/yourprofile';"></span>
+                                </div>
+                                <img src="https://r.mobirisesite.com/955353/assets/images/photo-1536548665027-b96d34a005ae.jpeg" alt="">
+                            </div>
+                            <div class="item-content">
+                                <p class="item-name mbr-fonts-style display-7">lalit Chaudhari</p>
+                                <p class="item-desc mbr-fonts-style display-4">UX Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="header1 careerm5 cid-uvAsQB1Jbf mbr-fullscreen mbr-parallax-background" id="hero-1-uvAsQB1Jbf">
+
+    
+
+    
+    <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);">
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-wrapper">
+                    <h1 class="mbr-section-title mbr-fonts-style display-1">Face Detection Magic</h1>
+                    <p class="mbr-text mbr-fonts-style display-7">Unleash the power of real-time face detection with a click!</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-white-outline display-4" href="/video">
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                            Start Streaming
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content6 careerm5 cid-uvAsQB2wFd" id="about">
+
+    
+
+    
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-wrapper">
+                    <h3 class="mbr-text mbr-fonts-style display-5">Welcome to the wild world of face detection! Here, we turn your ordinary webcam into a powerful tool for spotting faces like a pro. Get ready for some serious fun!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content3 careerm5 cid-uvAsQB2rhB" id="call-to-action-2-uvAsQB2rhB">
+
+    
+
+    
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="title-wrapper">
+                    <h3 class="mbr-section-title mbr-fonts-style display-5">Start the Adventure!</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="mbr-section-btn">
+                    <a class="btn btn-primary display-4" href="/video">
+                        <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        Go to Video
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="tabs1 careerm5 cid-uvAsQB3iV3" id="tabs-1-uvAsQB3iV3">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <div class="title-wrapper">
+                    <h3 class="mbr-section-title mbr-fonts-style display-4">Face Magic</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 tabs-wrap">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item first mbr-fonts-style"><a class="nav-link mbr-fonts-style show active display-5" role="tab"   href="/video" aria-selected="true">
+                            Real-Time Detection
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active display-5" role="tab" data-toggle="tab" data-bs-toggle="tab"  aria-selected="true">
+                            Webcam Wonders
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active display-5" role="tab" data-toggle="tab" data-bs-toggle="tab"  aria-selected="true">
+                           OpenCV Power 
+                           <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active display-5" role="tab" data-toggle="tab" data-bs-toggle="tab"  aria-selected="true">
+                            Face Fun
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active display-5" role="tab" data-toggle="tab" data-bs-toggle="tab"  aria-selected="true">
+                            Tech Savvy
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active display-5" role="tab" data-toggle="tab" data-bs-toggle="tab"  aria-selected="true">
+                            Join Us!
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="tab-content">
+                    <div id="tab1" class="tab-pane in active" role="tabpanel">
+                        <div class="tab-image">
+                            <img src=" {{ url_for('static', filename='images/detect02.png') }}" alt="">
+                        </div>
+                    </div>
+                  
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+
+
+
+<section data-bs-version="5.1" class="content7 careerm5 cid-uvAsQB5kLL" id="call-to-action-3-uvAsQB5kLL">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row flex-row-reverse">
+            <div class="col-12 col-lg-7 text-wrap">
+                <div class="text-wrapper">
+                    <h2 class="mbr-section-title mbr-fonts-style display-2">Join us!</h2>
+                    <p class="mbr-text mbr-fonts-style display-7">Dive into the world of face detection excitement!</p>
+                    <p class="mbr-cit mbr-fonts-style display-4">Tech Guru</p>
+                    <p class="mbr-name mbr-fonts-style display-4">Alex Johnson</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-primary display-4" href="/video">
+                            <span class="mbr-iconfont fas fa-arrow-right"></span>
+                            Start Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="image-wrapper">
+                    <img src=" {{ url_for('static', filename='images/BB1p7haO.jpeg') }}" alt="">                
+                <div class="image-wrapper">
+                    <img src=" {{ url_for('static', filename='images/AI-autism.jpg') }}" alt="">
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section data-bs-version="5.1" class="gallery2 careerm5 cid-uvAsQB79Nv" id="gallery">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-wrapper">
+                    <h2 class="mbr-section-title mbr-fonts-style display-2">Face Gallery</h2>
+                    <a class="link-wrapper" href="#">
+                        <p class="mbr-link mbr-fonts-style display-4">View All</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src=" {{ url_for('static', filename='images/g1.jpg') }}" alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/g2.jpg') }}  " alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/g5.webp') }}" alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/g6.webp') }}" alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/top_person1.webp') }}" alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-lg-2 card">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="{{ url_for('static', filename='images/g3.jpg') }}" alt="">
+                        <span class="socicon-instagram socicon mbr-iconfont mbr-iconfont-social"></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12">
+                <div class="text-wrapper">
+                    <p class="mbr-text mbr-fonts-style display-7">Check out our amazing face detection moments captured in action!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="gallery1 careerm5 cid-uvAsQB9C66" id="gallery-1-uvAsQB9C66">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-3 card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('static', filename='images/f1.jpeg') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('static', filename='images/g5.webp') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('static', filename='images/f2.webp') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('static', filename='images/f3.png') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('static', filename='images/f7.webp') }}" alt="">
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 card">
+                <div class="image-wrapper">
+                    <img src="  {{ url_for('static', filename='images/f5.webp' ) }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content1 careerm5 cid-uvAsQB92OX" id="about-us-2-uvAsQB92OX">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <div class="subtitle-wrapper">
+                    <h3 class="mbr-section-subtitle mbr-fonts-style display-4">Our Mission</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="title-wrapper">
+                    <h2 class="mbr-section-title mbr-fonts-style display-2">Transforming the way you see faces in real-time!</h2>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="image1 careerm5 cid-uvAsQBaLx9 mbr-parallax-background" id="image-1-uvAsQBaLx9">
+
+    
+
+    
+    <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);">
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-wrapper">
+                    <p class="mbr-text mbr-fonts-style display-7">Face Detection Awaits You!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content6 careerm5 cid-uvAsQBaqwu" id="about-us-4-uvAsQBaqwu">
+
+    
+
+    
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-wrapper">
+                    <h3 class="mbr-text mbr-fonts-style display-5">We are pioneers in face detection technology, making it accessible and fun for everyone!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section data-bs-version="5.1" class="content8 careerm5 cid-uvAsQBb19A" id="faq-1-uvAsQBb19A">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <div class="title-wrapper">
+                    <h3 class="mbr-section-title mbr-fonts-style display-4">Face Detection FAQs</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div id="bootstrap-accordion_21" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse1_21" aria-expanded="false" aria-controls="collapse1">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">What is face detection?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+
+                                </span>
+                                
+                            </button>
+                        </div>
+                        <div id="collapse1_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">It&apos;s a technology that identifies human faces in images.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse2_21" aria-expanded="false" aria-controls="collapse2">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">How does it work?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+                                </span>
+                            </button>
+                        </div>
+                        <div id="collapse2_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingTwo" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">It uses algorithms to analyze facial features and patterns.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingThree">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse3_21" aria-expanded="false" aria-controls="collapse3">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">Is it real-time?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+                                </span>
+                            </button>
+                        </div>
+                        <div id="collapse3_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingThree" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">Absolutely! Watch faces detected live through your webcam.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingFour">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse4_21" aria-expanded="false" aria-controls="collapse4">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">What technology is used?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+                                </span>
+                            </button>
+                        </div>
+                        <div id="collapse4_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingFour" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">We utilize OpenCV for powerful face detection capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingFive">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse5_21" aria-expanded="false" aria-controls="collapse5">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">Can I use it on mobile?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+                                </span>
+                            </button>
+                        </div>
+                        <div id="collapse5_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingFive" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">Currently, it&apos;s optimized for desktop browsers only.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingSix">
+                            <button class="panel-title collapsed" data-bs-toggle="collapse" data-bs-target="#collapse6_21" aria-expanded="false" aria-controls="collapse6">
+                                <h4 class="panel-title-edit mbr-fonts-style display-7">Is it free to use?</h4>
+                                <span class="mbr-iconfont mbr-iconfont-btn">
+                                    {% raw %}<i class="fa fa-play"></i>{% endraw %}
+                                </span>
+                            </button>
+                        </div>
+                        <div id="collapse6_21" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingSix" data-bs-parent="#bootstrap-accordion_21">
+                            <div class="panel-body">
+                                <p class="mbr-fonts-style panel-text display-4">Yes! Enjoy our face detection service at no cost.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="features2 careerm5 cid-uvAsQBbQiI" id="about-us-1-uvAsQBbQiI">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row flex-row-reverse">
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Our Mission</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">At Face Detection Inc., we believe in the power of technology to bring people together. Our mission is to make face detection accessible and fun for everyone, turning mundane moments into extraordinary experiences!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Our Journey</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">Founded by a group of tech enthusiasts, we started with a simple idea: to create a platform that showcases the magic of face detection. With a sprinkle of creativity and a dash of humor, we’ve built a community that celebrates innovation!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-row-reverse">
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Our Values</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">We value creativity, fun, and a little bit of chaos! Our team is dedicated to pushing the boundaries of technology while ensuring that our users have a blast. After all, who said tech can’t be entertaining?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 card">
+                <div class="card-wrapper">
+                    
+                    <div class="card-content">
+                        <h3 class="mbr-section-title mbr-fonts-style display-7">Join Us</h3>
+                        <p class="mbr-text mbr-fonts-style display-4">We invite you to be part of our journey. Whether you’re a tech guru or just someone looking for a good time, there’s a place for you here. Let’s explore the world of face detection together!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="content6 careerm5 cid-uvAsQBbAuR" id="generic-text-3-uvAsQBbAuR">
+
+    
+
+    
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-wrapper">
+                    <h3 class="mbr-text mbr-fonts-style display-5">Get ready to be amazed by technology!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section data-bs-version="5.1" class="header1 careerm5 cid-uvAsQBcvF9 mbr-fullscreen" id="video-2-uvAsQBcvF9">
+    <div class="mbr-fallback-image disabled"></div>
+
+    <!-- Overlay for darkening the background -->
+    <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);"></div>
+
+    <!-- Local Video as background -->
+    <div class="video-background">
+        <video autoplay muted loop id="background-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+            <source src="{{ url_for('static', filename='videos/video.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-wrapper" style="position: relative; z-index: 1; text-align: center; color: #fff; padding: 50px;">
+                    <!-- Title about Face Detection -->
+                    <h1 style="font-size: 3rem; font-weight: bold; color: white;">Unlock the Power of Face Detection</h1>
+            
+                    <!-- Description about Face Detection -->
+                    <p style="font-size: 1.2rem; color: white; margin-top: 20px; line-height: 1.8;">
+                        Explore cutting-edge face detection technology that revolutionizes security, personalization, and user experiences. 
+                        Our advanced algorithms accurately detect faces in real-time, ensuring top-notch performance in any environment. 
+                        Whether it's for security systems, personalized experiences, or innovative applications, our face detection solution brings intelligence and efficiency to your projects.
+                    </p>
+            
+                    <!-- Optional Call to Action -->
+                    <a href="#contact" class="btn btn-primary" style="margin-top: 30px; font-size: 1.1rem;">Get in Touch</a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+<section data-bs-version="5.1" class="features5 careerm5 cid-uvAsQBdUeM" id="call-to-action-1-uvAsQBdUeM">
+
+    
+
+    
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-4 item features-image">
+                    <div class="item-wrapper">
+                        <div class="item-img">
+                            <img src="  {{ url_for('static', filename='images/f7.webp') }}" alt="">
+                            <div class="item-content">
+                                <h3 class="mbr-section-title mbr-fonts-style display-5">Start Now!</h3>
+                                <div class="mbr-section-btn">
+                                    <a class="btn btn-white-outline display-4" href="/video">
+                                        <span class="mbr-iconfont fas fa-arrow-right"></span>
+                                        Go Live
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-12 col-lg-4 item features-image">
+                    <div class="item-wrapper">
+                        <div class="item-img">
+                            <img src="{{ url_for('static', filename='images/f5.webp') }}" alt="">
+                            <div class="item-content">
+                                <h3 class="mbr-section-title mbr-fonts-style display-5">Face Off!</h3>
+                                <div class="mbr-section-btn">
+                                    <a class="btn btn-white-outline display-4" href="/video">
+                                        <span class="mbr-iconfont fas fa-arrow-right"></span>
+                                        Go Live
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-12 col-lg-4 item features-image">
+                    <div class="item-wrapper">
+                        <div class="item-img">
+                            <img src="  {{ url_for('static', filename='images/AI-autism.jpg ') }}" alt="">
+                            <div class="item-content">
+                                <h3 class="mbr-section-title mbr-fonts-style display-5">Join the Fun!</h3>
+                                <div class="mbr-section-btn">
+                                    <a class="btn btn-white-outline display-4" href="/video">
+                                        <span class="mbr-iconfont fas fa-arrow-right"></span>
+                                        Go Live
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</section>
+
+
+
+<section data-bs-version="5.1" class="slider1 mbr-embla careerm5 cid-uvAsQBeVV8" id="testimonials-1-uvAsQBeVV8">
+    
+
+    
+    
+    <div class="container-fluid">
+        <div class="position-relative row">
+            <div class="col-12 col-lg-4">
+                <div class="image-wrapper">
+                    <img src="  {{ url_for('static', filename='images/f6.webp') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-lg-8 slider-wrap">
+                <div class="embla" data-skip-snaps="true" data-align="center" data-contain-scroll="trimSnaps" data-loop="true" data-auto-play="true" data-auto-play-interval="4" data-draggable="true">
+                    <div class="embla__viewport">
+                        <div class="embla__container">
+                            <div class="embla__slide slider-image item" style="margin-left: 10rem; margin-right: 10rem;">
+                                <div class="card-wrap">
+                                    <div class="content-wrap">
+                                        <p class="mbr-text mbr-fonts-style display-5">Face detection has never been this fun!</p>
+                                        <p class="mbr-name card-title mbr-fonts-style display-7">Pratik Pawar</p>
+                                        <p class="mbr-role mbr-fonts-style display-4">Web Developer</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="embla__slide slider-image item" style="margin-left: 10rem; margin-right: 10rem;">
+                                <div class="card-wrap">
+                                    <div class="content-wrap">
+                                        <p class="mbr-text mbr-fonts-style display-5">I love the filters! They make everything better!</p>
+                                        <p class="mbr-name card-title mbr-fonts-style display-7">Bhavesh Patil</p>
+                                        <p class="mbr-role mbr-fonts-style display-4">Social Media Manager</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="embla__slide slider-image item" style="margin-left: 10rem; margin-right: 10rem;">
+                                <div class="card-wrap">
+                                    <div class="content-wrap">
+                                        <p class="mbr-text mbr-fonts-style display-5">This tech is a must-try for everyone!</p>
+                                        <p class="mbr-name card-title mbr-fonts-style display-7">Yogesh Patil</p>
+                                        <p class="mbr-role mbr-fonts-style display-4">UI Designer</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="embla__slide slider-image item" style="margin-left: 10rem; margin-right: 10rem;">
+                                <div class="card-wrap">
+                                    <div class="content-wrap">
+                                        <p class="mbr-text mbr-fonts-style display-5">I can't believe how accurate it is!</p>
+                                        <p class="mbr-name card-title mbr-fonts-style display-7">Gopal Saindane</p>
+                                        <p class="mbr-role mbr-fonts-style display-4">AI Specialist</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="embla__slide slider-image item" style="margin-left: 10rem; margin-right: 10rem;">
+                                <div class="card-wrap">
+                                    <div class="content-wrap">
+                                        <p class="mbr-text mbr-fonts-style display-5">It's like magic! I’m hooked!</p>
+                                        <p class="mbr-name card-title mbr-fonts-style display-7">lalit Chaudhari</p>
+                                        <p class="mbr-role mbr-fonts-style display-4">UX Designer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="embla__button embla__button--prev">
+                        <span class="mbr-iconfont fa-solid fa-arrow-left mbr-black" aria-hidden="true"></span>
+                        <span class="sr-only visually-hidden visually-hidden visually-hidden">Previous</span>
+                    </button>
+                    <button class="embla__button embla__button--next">
+                        <span class="mbr-iconfont fas fa-arrow-right mbr-black" aria-hidden="true"></span> <!-- FontAwesome arrow-right icon -->
+                        <span class="sr-only visually-hidden visually-hidden visually-hidden">Next</span>
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<section data-bs-version="5.1" class="form1 careerm5 cid-uvAsQBgx7A" id="contact">
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="map-wrapper">
+                    <div class="google-map"><iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3726.787355703813!2d74.77843127502837!3d20.920873180701573!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdecfcf1f504439%3A0x35defe07af239571!2sSSVPS%20College%20Of%20Engineering!5e0!3m2!1sen!2sru!4v1732973799601!5m2!1sen!2sru" allowfullscreen=""></iframe></div>
+                </div>
+                
+            </div>
+            <div class="col-lg-6 mx-auto mbr-form form-wrap" data-form-type="formoid">
+                <form action="https://formspree.io/f/mgvepnnd" method="POST"> 
+                    <div class="row">
+                        
+                    </div>
+                    <div class="dragArea row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h2 class="mbr-section-title mbr-fonts-style display-2">Get in Touch</h2>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <p class="mbr-text mbr-fonts-style display-7">Have questions or feedback? We’d love to hear from you! Fill out the form below and let’s chat about face detection magic!</p>
+                        </div>
+                        <div data-for="email" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3 mb-3">
+                            <input type="email" name="email" placeholder="Email" data-form-field="email" class="form-control display-7" value="" id="email-contact-form-1-uvAsQBgx7A">
+                        </div>
+                        <div data-for="text" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3 mb-3">
+                            <input type="text" name="name" placeholder="Name" data-form-field="text" class="form-control display-7" value="" id="text-contact-form-1-uvAsQBgx7A">
+                        </div>
+                        <div data-for="number" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3 mb-3">
+                            <input type="number" name="number" placeholder="Phone" data-form-field="number" class="form-control display-7"  id="number-contact-form-1-uvAsQBgx7A">
+                        </div>
+                        <div data-for="feedback" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3">
+                            <textarea name="feedback" placeholder="Give Your Feedback" data-form-field="feedback" class="form-control display-7" rows="1" id="feedback-contact-form"></textarea>
+                        </div>
+                        
+                        <div class="col-md-auto col mbr-section-btn">
+                            <button type="submit" class="btn btn-secondary display-4">
+                                <span class="mbr-iconfont fas fa-arrow-right"></span>
+                                Send Message
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="footer1 careerm5 cid-uvAsQBhVLx" once="footers" id="footer-1-uvAsQBhVLx">
+
+    
+
+    
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-3 col-md-6">
+                <div class="title-wrapper">
+                    <h3 class="mbr-section-title mbr-fonts-style display-5">Stay Connected</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-md-6">
+                <div class="contacts-wrapper">
+                    <h4 class="mbr-section-subtitle mbr-fonts-style display-7">Follow Us</h4>
+                    <ul class="list mbr-fonts-style display-4">
+                        <li class="item-wrap">
+                            Address: 
+                            208, Vidyanager, near Ssvps Engg Collage, opp. Deopur, Dhule, Maharashtra 424002, India
+                        </li>
+                        <li class="item-wrap">
+                            WhatsApp: 
+                            <a href="tel:+919604572052" class="text-white">+91 9604572052</a>
+                        </li>
+                        <li class="item-wrap">
+                            Email: 
+                            <a href="mailto:pawar004pratik@gmail.com" class="text-white">pawar004pratik@gmail.com</a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-md-6">
+                <div class="list-wrapper">
+                    <h4 class="mbr-section-subtitle mbr-fonts-style display-7">Quick Links</h4>
+                    <ul class="list mbr-fonts-style display-4">
+                        <li class="item-wrap"><a href="#" class="text-white">Home</a></li>
+                        <li class="item-wrap"><a href="/video" class="text-white">Camera</a></li>
+                        <li class="item-wrap"><a href="#about" class="text-white">About</a></li>
+                        <li class="item-wrap"><a href="#contact" class="text-white">Contact</a></li>
+                       
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <p class="copyright mbr-fonts-style display-4">© 2025 Face Detection Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jarallax.js') }}"></script>
+<script src="{{ url_for('static', filename='js/smooth-scroll.js') }}"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/navbar-dropdown.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vimeo_player.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mbr-tabs.js') }}"></script>
+<script src="{{ url_for('static', filename='js/embla.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mbr-switch-arrow.js') }}"></script>
+<script src="{{ url_for('static', filename='js/player.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/formoid.min.js') }}"></script>
+
+<script src="https://kit.fontawesome.com/6ac19735e8.js" crossorigin="anonymous"></script>
+
+
+  <script>
+    // Select all links that reference an id (anchor links)
+    const links = document.querySelectorAll('a[href^="#"]');
+  
+    // Add event listener to each link
+    links.forEach(link => {
+      link.addEventListener('click', function (event) {
+        const targetId = this.getAttribute('href').substring(1); // Get the ID of the target section
+        const targetSection = document.getElementById(targetId); // Find the target section by ID
+  
+        // If the href is just "#" (empty target)
+        if (targetId === "") {
+          event.preventDefault(); // Prevent default behavior
+          window.scrollTo({
+            top: 0, // Scroll to the top of the page
+            behavior: 'smooth' // Smooth scrolling
+          });
+          return;
+        }
+  
+        // Prevent default link behavior for valid links
+        event.preventDefault();
+  
+        // If the target section exists, scroll to it smoothly
+        if (targetSection) {
+          window.scrollTo({
+            top: targetSection.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+  
+  
+  
+
+</body>
+</html>

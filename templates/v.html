@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Face Recognition Attendance</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #fdfdfd;
+      padding-top: 80px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1 {
+      color: #0d6efd;
+      margin-bottom: 30px;
+      font-weight: bold;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .btn-custom {
+      min-width: 140px;
+    }
+
+    #videoStream {
+      display: none;
+      max-width: 100%;
+      border: 6px solid #343a40;
+      border-radius: 10px;
+      margin-top: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #0d6efd;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 30px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .control-buttons {
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="/">FaceDetect</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/attendance">Enrollment</a></li>
+          <li class="nav-item"><a class="nav-link" href="/video">Camera</a></li>
+          <li class="nav-item"><a class="nav-link" href="/view_attendance">View Attendance</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container text-center">
+    <h1>Face Recognition Attendance System</h1>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-center control-buttons mb-4">
+      <button id="startBtn" class="btn btn-success btn-custom">Start Video</button>
+      <button id="stopBtn" class="btn btn-danger btn-custom">Stop Video</button>
+      <button id="reloadBtn" class="btn btn-secondary btn-custom">Reload Page</button>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="loader"></div>
+
+    <!-- Video Feed (Hidden by Default) -->
+    <div>
+      <img id="videoStream" src="" alt="Live Feed" />
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const videoStream = document.getElementById('videoStream');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const reloadBtn = document.getElementById('reloadBtn');
+    const loader = document.getElementById('loader');
+
+    // Start video feed
+    startBtn.addEventListener('click', () => {
+      loader.style.display = 'block';
+      videoStream.style.display = 'none';
+      videoStream.src = '/video_feed';
+
+      videoStream.onload = () => {
+        loader.style.display = 'none';
+        videoStream.style.display = 'block';
+      };
+    });
+
+    // Stop video feed
+    stopBtn.addEventListener('click', () => {
+      videoStream.src = '';
+      videoStream.style.display = 'none';
+      loader.style.display = 'none';
+    });
+
+    // Reload the page
+    reloadBtn.addEventListener('click', () => {
+      location.reload();
+    });
+  </script>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

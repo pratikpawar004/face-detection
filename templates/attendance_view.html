@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Attendance View</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 2%;
+        }
+
+        /* Back Button Styling */
+        .back-button {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none; /* Removes underline */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+body {
+    padding-top: 70px; /* Push content down to avoid overlap */
+}
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">FaceDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/attendance">Enrollment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/video">Camera</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view_enrolled_students">Delete Attendance</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h2>Attendance Records</h2>
+
+    <div class="container my-4">
+        {% if attendance_data %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Enrollment</th>
+                        <th>Present or Not</th>
+                        <th>Time</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in attendance_data %}
+                    <tr>
+                        <td>{{ row['Serial No.'] }}</td>
+                        <td>{{ row['Enrollment'] }}</td>
+                        <td>{{ row['Present or Not'] }}</td>
+                        <td>{{ row['Time'] }}</td>
+                        <td>{{ row['Name'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">No attendance records available.</p>
+        {% endif %}
+    </div>
+    
+    <a href="/download_attendance" class="back-button">
+    ⬇️ Download Attendance CSV
+</a>
+
+
+    <!-- Back Button -->
+    <a href="/attendance" class="back-button">Back to Home</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

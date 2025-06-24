@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Face Recognition System</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            padding-top: 70px;
+            margin: 0;
+            background-color: #f0f4f7;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #4CAF50;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-container input, 
+        .form-container select, 
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input:focus, 
+        .form-container select:focus, 
+        .form-container button:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        /* Button Styling */
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        /* Flash Messages */
+        .flash-message {
+            color: #ff4d4d;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Status Messages */
+        .status {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">FaceDetect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/attendance">Enrollment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/video">Camera</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view_attendance">View Attendance</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>Face Detection Attendance System</h1>
+
+  <!-- Capture Image Form -->
+<div class="form-container">
+    <h2>Capture Image</h2>
+    <form id="captureForm">
+        <input type="text" name="enrollment" placeholder="Enrollment Number" required>
+        <input type="text" name="name" placeholder="Student Name" required>
+        <button type="submit">Capture Image</button>
+    </form>
+</div>
+
+<script>
+    // Handle form submission without redirection
+    document.getElementById('captureForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent default form submission
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch('/capture_image', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert(result.success); // Show success alert
+            } else if (result.error) {
+                alert(result.error); // Show error alert if any
+            }
+        } catch (err) {
+            alert("An error occurred while capturing the image.");
+            console.error(err);
+        }
+    });
+</script>
+
+
+    <!-- Train Model Form -->
+    <div class="form-container">
+        <h2>Train Face Recognition Model</h2>
+        <form action="/train_model" method="POST">
+            <button type="submit">Train Model</button>
+        </form>
+    </div>
+
+    <!-- Flash Messages -->
+    <script>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                alert("{{ message }}"); // Display an alert with the message
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </script>
+
+    <!-- Live Face Detection Form -->
+    <div class="form-container">
+        <h2>Live Face Detection Attendance</h2>
+        <form action="/video" method="GET">
+            <button type="submit">Start Live Detection</button>
+        </form>
+    </div>
+
+<!-- Mark Attendance Form -->
+<div class="form-container">
+    <h2>Mark Attendance Manually</h2>
+    <form method="POST" action="/fill_attendance">
+        <input type="text" name="enrollment" placeholder="Enrollment" required>
+        <input type="text" name="name" placeholder="Name" required>
+        <select name="present_or_not" required>
+            <option value="">--Select--</option>
+            <option value="Present">Present</option>
+            <option value="Not Present">Not Present</option>
+        </select>
+        <button type="submit">Submit Attendance</button>
+    </form>
+</div>
+
+<!-- Flash Messages -->
+<script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</script>
+    
+
+
+
+    <!-- View Attendance Button -->
+    <div class="form-container">
+        <h2>View Attendance</h2>
+        <form action="/view_attendance" method="GET">
+            <button type="submit">View Attendance Records</button>
+        </form>
+    </div>
+
+ <!-- View Attendance Button -->
+ <div class="form-container">
+    <h2>Delete Attendance</h2>
+    <form action="/view_enrolled_students" method="GET">
+        <button type="submit">Delete Attendance</button>
+    </form>
+</div>
+    <!-- Flash Message Display -->
+    <div class="flash-message">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Status Message Display -->
+    <div class="status">
+        {% if status %}
+            <p>{{ status }}</p>
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
